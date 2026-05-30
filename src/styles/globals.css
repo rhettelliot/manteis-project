@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* The Manteis Project — Design Tokens */
+  --void: #000000;
+  --void-raised: #0A0A0A;
+  --void-elevated: #111111;
+  --void-subtle: #1A1A1A;
+
+  --signal: #007AFF;
+  --signal-dim: #0055CC;
+  --signal-glow: #007AFF33;
+
+  --amber: #E5A00B;
+  --amber-dim: #B87D08;
+  --amber-glow: #E5A00B22;
+
+  --edge-faint: rgba(255,255,255,0.06);
+  --edge-subtle: rgba(255,255,255,0.12);
+  --edge-medium: rgba(255,255,255,0.2);
+  --edge-bright: rgba(255,255,255,0.4);
+
+  --light: #E8E8E8;
+  --light-dim: #999999;
+  --light-muted: #666666;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--void);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--void);
+  color: var(--light);
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background: var(--signal);
+  color: var(--void);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--edge-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--edge-medium);
+}
+
+/* Noise overlay — film grain at 2% */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Section label typography */
+.section-label {
+  @apply font-mono text-[10px] tracking-[0.25em] uppercase text-light-muted;
+}
+
+/* Divider — ambient glow */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0,122,255,0.15) 30%,
+    rgba(229,160,11,0.1) 70%,
+    transparent 100%
+  );
+}
+
+/* Signal line — thin horizontal accent */
+.signal-line {
+  height: 1px;
+  background: var(--signal);
+  opacity: 0.3;
+}
+
+/* Magnetic button snap */
+.btn-snap {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease,
+              color 0.3s ease;
+}
+.btn-snap:hover {
+  transform: scale(1.05);
+}
+
+/* Scan line overlay for gatekeeper */
+.scan-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,122,255,0.015) 2px,
+    rgba(0,122,255,0.015) 4px
+  );
+}
+
+/* Waveform bars */
+.waveform-bar {
+  width: 2px;
+  background: var(--signal);
+  border-radius: 1px;
+  animation: wave-form 1.2s ease-in-out infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
