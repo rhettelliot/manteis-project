@@ -1,11 +1,8 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
-
-gsap.registerPlugin(ScrollTrigger)
+import { revealOnEnter } from '@/lib/reveal'
 
 interface Release {
   id: string
@@ -70,38 +67,14 @@ export function Discography() {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Latest release entrance
-      gsap.from('.featured-release', {
-        y: 80,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.featured-release',
-          start: 'top 85%',
-          once: true,
-        },
-      })
-
-      // Catalog cards stagger
-      gsap.utils.toArray<HTMLElement>('.catalog-card').forEach((card, i) => {
-        gsap.from(card, {
-          y: 50,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 88%',
-            once: true,
-          },
-          delay: i * 0.1,
-        })
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
+    const root = sectionRef.current
+    if (!root) return
+    const disposers: Array<() => void> = []
+    ;(async () => {
+      disposers.push(await revealOnEnter(root.querySelectorAll('.featured-release'), { y: 80, duration: 1 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.catalog-card'), { y: 50, duration: 0.7, stagger: 0.1 }))
+    })()
+    return () => disposers.forEach((d) => d())
   }, [])
 
   const latest = releases[0]
