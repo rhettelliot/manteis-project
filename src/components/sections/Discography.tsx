@@ -141,7 +141,7 @@ export function Discography() {
                 }}
               />
               {/* Badge */}
-              <div className="absolute top-4 left-4 font-mono text-[9px] tracking-[0.15em] uppercase bg-void/70 backdrop-blur-sm px-2 py-1 border border-edge-ghost text-signal">
+              <div className="absolute top-4 left-4 font-mono text-[9px] tracking-[0.15em] uppercase bg-void/70 backdrop-blur-sm px-2 py-1 border border-edge-faint text-signal">
                 Latest
               </div>
             </div>
@@ -223,7 +223,7 @@ export function Discography() {
                   </span>
                 </div>
                 {/* Catalog number */}
-                <div className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.15em] uppercase text-light/60 bg-void/70 backdrop-blur-sm px-2 py-1 border border-edge-ghost">
+                <div className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.15em] uppercase text-light/60 bg-void/70 backdrop-blur-sm px-2 py-1 border border-edge-faint">
                   {release.catalogNumber}
                 </div>
               </div>

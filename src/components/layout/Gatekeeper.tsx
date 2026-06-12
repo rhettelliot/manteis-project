@@ -101,7 +101,7 @@ export function Gatekeeper() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 bg-[#000000] flex flex-col items-center justify-center"
+      className="fixed inset-0 z-50 bg-void flex flex-col items-center justify-center"
     >
       {/* Signal line across center */}
       <div

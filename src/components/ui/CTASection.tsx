@@ -39,7 +39,7 @@ export function CTASection() {
                 className="w-[2px] rounded-full"
                 style={{
                   height: `${6 + Math.abs(Math.sin(i * 0.5)) * 22}px`,
-                  backgroundColor: i % 3 === 0 ? '#E5A00B' : '#007AFF',
+                  backgroundColor: i % 3 === 0 ? 'var(--amber)' : 'var(--signal)',
                   opacity: 0.6 + (i % 3) * 0.15,
                 }}
               />
