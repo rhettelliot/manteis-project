@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import '@/styles/globals.css'
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { releases, ARTIST_URL, SPOTIFY_ARTIST, APPLE_MUSIC_ARTIST, LABEL_URL } from '@/lib/releases'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,31 +18,68 @@ const jetbrains = JetBrains_Mono({
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'The Manteis Project',
-  description: 'Ambient. Experimental. Signal processing as sound architecture. Manteis Recordings.',
-  metadataBase: new URL('https://themanteisproject.com'),
+  title: 'The Manteis Project — Signal Architecture',
+  description:
+    'Ambient / quantum architecture. Signal processing as sound architecture. Four releases on Manteis Recordings.',
+  metadataBase: new URL(ARTIST_URL),
+  keywords: ['ambient', 'quantum architecture', 'The Manteis Project', 'Manteis Recordings', 'electronic music'],
   openGraph: {
-    title: 'The Manteis Project',
-    description: 'Ambient / Experimental — Manteis Recordings',
+    title: 'The Manteis Project — Signal Architecture',
+    description: 'Ambient / Quantum Architecture — Manteis Recordings',
     type: 'website',
+    url: ARTIST_URL,
+    siteName: 'The Manteis Project',
     images: [{ url: '/og.jpg', width: 1200, height: 1200, alt: 'The Manteis Project — Manteis Recordings' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'The Manteis Project',
-    description: 'Ambient / Experimental — Manteis Recordings',
+    title: 'The Manteis Project — Signal Architecture',
+    description: 'Ambient / Quantum Architecture — Manteis Recordings',
     images: ['/og.jpg'],
+  },
+  alternates: {
+    canonical: ARTIST_URL,
   },
 }
 
 export const viewport: Viewport = {
   themeColor: '#000000',
   colorScheme: 'dark',
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'MusicGroup',
+      '@id': `${ARTIST_URL}/#artist`,
+      name: 'The Manteis Project',
+      url: ARTIST_URL,
+      genre: ['Ambient', 'Electronic'],
+      sameAs: [SPOTIFY_ARTIST, APPLE_MUSIC_ARTIST],
+      recordLabel: {
+        '@type': 'Organization',
+        name: 'Manteis Recordings',
+        url: LABEL_URL,
+      },
+    },
+    ...releases.map((release) => ({
+      '@type': 'MusicAlbum',
+      '@id': `${ARTIST_URL}/#${release.id}`,
+      name: release.title,
+      datePublished: release.year,
+      numTracks: release.trackCount,
+      image: `${ARTIST_URL}${release.coverArt}`,
+      url: release.spotify,
+      byArtist: { '@id': `${ARTIST_URL}/#artist` },
+      albumProductionType: 'https://schema.org/StudioAlbum',
+    })),
+  ],
 }
 
 export default function RootLayout({
@@ -52,14 +90,35 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-void text-light antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <noscript>
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000', color: '#007AFF', fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', textAlign: 'center', padding: 24 }}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000', color: '#7C3AED', fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', textAlign: 'center', padding: 24 }}>
             The Manteis Project is an interactive experience — enable JavaScript to enter.
           </div>
         </noscript>
         <div className="noise-overlay" />
         <div className="scan-overlay" />
         {children}
+        {/* Safety net: if IntersectionObserver never fires, force scroll-revealed content visible */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  (function() {
+    function sweep() {
+      setTimeout(function() {
+        var els = document.querySelectorAll('main [style*="opacity: 0"], main [style*="opacity:0"]');
+        els.forEach(function(el) { el.style.opacity = '1'; el.style.transform = 'none'; });
+      }, 4000);
+    }
+    sweep();
+    window.addEventListener('tmp-enter', sweep);
+  })();
+`,
+          }}
+        />
       </body>
     </html>
   )

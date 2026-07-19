@@ -3,34 +3,33 @@
 @tailwind utilities;
 
 :root {
-  /* The Manteis Project — Design Tokens */
+  /* The Manteis Project — Design Tokens (Antigravity OS) */
   --void: #000000;
-  --void-raised: #0A0A0A;
-  --void-elevated: #111111;
-  --void-subtle: #1A1A1A;
+  --void-raised: #0C0C0C;
+  --void-elevated: #141414;
+  --void-float: #1C1C1C;
 
-  --signal: #007AFF;
-  --signal-dim: #0055CC;
-  --signal-glow: #007AFF33;
+  /* Single signal — Electric Violet */
+  --signal: #7C3AED;
+  --signal-dim: rgba(124, 58, 237, 0.12);
+  --signal-border: rgba(124, 58, 237, 0.4);
 
-  --amber: #E5A00B;
-  --amber-dim: #B87D08;
-  --amber-glow: #E5A00B22;
-
-  --edge-faint: rgba(255,255,255,0.06);
+  --edge-ghost: rgba(255,255,255,0.04);
+  --edge-faint: rgba(255,255,255,0.08);
   --edge-subtle: rgba(255,255,255,0.12);
-  --edge-medium: rgba(255,255,255,0.2);
-  --edge-bright: rgba(255,255,255,0.4);
+  --edge-medium: rgba(255,255,255,0.22);
+  --edge-bright: rgba(255,255,255,0.45);
 
-  --light: #E8E8E8;
+  --light: #F0F0F0;
   --light-dim: #999999;
-  --light-muted: #666666;
+  --light-muted: #6B6B6B;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-radius: 0;
 }
 
 html {
@@ -48,10 +47,10 @@ body {
 /* Selection */
 ::selection {
   background: var(--signal);
-  color: var(--void);
+  color: #FFFFFF;
 }
 
-/* Scrollbar */
+/* Scrollbar — hard edges */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -60,7 +59,6 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--edge-subtle);
-  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--edge-medium);
@@ -77,41 +75,37 @@ body {
   background-repeat: repeat;
 }
 
-/* Section label typography */
+/* Section label typography — signal-colored index marks */
 .section-label {
-  @apply font-mono text-[10px] tracking-[0.25em] uppercase text-light-muted;
+  @apply font-mono text-[10px] tracking-[0.25em] uppercase;
+  color: var(--signal);
 }
 
-/* Divider — ambient glow */
-.divider-glow {
+/* Divider — structural edge, not glow */
+.divider-edge {
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0,122,255,0.15) 30%,
-    rgba(229,160,11,0.1) 70%,
-    transparent 100%
-  );
+  background: var(--edge-faint);
 }
 
 /* Signal line — thin horizontal accent */
 .signal-line {
   height: 1px;
   background: var(--signal);
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* Magnetic button snap */
 .btn-snap {
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
               border-color 0.3s ease,
-              color 0.3s ease;
+              color 0.3s ease,
+              background-color 0.3s ease;
 }
 .btn-snap:hover {
   transform: scale(1.05);
 }
 
-/* Scan line overlay for gatekeeper */
+/* Scan line overlay — barely-there instrument texture */
 .scan-overlay {
   position: fixed;
   inset: 0;
@@ -121,17 +115,26 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0,122,255,0.015) 2px,
-    rgba(0,122,255,0.015) 4px
+    rgba(124,58,237,0.012) 2px,
+    rgba(124,58,237,0.012) 4px
   );
 }
 
-/* Waveform bars */
+/* Waveform bars — hard edged */
 .waveform-bar {
   width: 2px;
   background: var(--signal);
-  border-radius: 1px;
   animation: wave-form 1.2s ease-in-out infinite;
+}
+
+/* Telemetry readout rows */
+.telemetry-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--edge-ghost);
 }
 
 /* Reduced motion */
@@ -144,9 +147,10 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
-/* Keyboard navigation — accent outline, only for keyboard focus */
+
+/* Keyboard navigation — signal outline, only for keyboard focus */
 :focus-visible {
-  outline: 1px solid #007AFF;
+  outline: 1px solid var(--signal);
   outline-offset: 3px;
 }
 

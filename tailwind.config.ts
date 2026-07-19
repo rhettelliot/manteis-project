@@ -9,33 +9,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // The Manteis Project — void + signal palette
+        // The Manteis Project — void + single violet signal
         void: {
           DEFAULT: '#000000',
-          raised: '#0A0A0A',
-          elevated: '#111111',
-          subtle: '#1A1A1A',
+          raised: '#0C0C0C',
+          elevated: '#141414',
+          float: '#1C1C1C',
         },
         signal: {
-          // Primary: Electric Blue — data, cognition, frequency
-          DEFAULT: '#007AFF',
-          dim: '#0055CC',
-          glow: '#007AFF33',
-          // Secondary: Amber — warmth, analog, earth
-          amber: '#E5A00B',
-          'amber-dim': '#B87D08',
-          'amber-glow': '#E5A00B22',
+          // Electric Violet — the one signal
+          DEFAULT: '#7C3AED',
+          dim: 'rgba(124, 58, 237, 0.12)',
+          border: 'rgba(124, 58, 237, 0.4)',
         },
         edge: {
-          faint: 'rgba(255,255,255,0.06)',
+          ghost: 'rgba(255,255,255,0.04)',
+          faint: 'rgba(255,255,255,0.08)',
           subtle: 'rgba(255,255,255,0.12)',
-          medium: 'rgba(255,255,255,0.2)',
-          bright: 'rgba(255,255,255,0.4)',
+          medium: 'rgba(255,255,255,0.22)',
+          bright: 'rgba(255,255,255,0.45)',
         },
         light: {
-          DEFAULT: '#E8E8E8',
+          DEFAULT: '#F0F0F0',
           dim: '#999999',
-          muted: '#666666',
+          muted: '#6B6B6B',
         },
       },
       fontFamily: {
