@@ -102,6 +102,10 @@ export function Gatekeeper() {
     <div
       ref={containerRef}
       data-gate=""
+      role="dialog"
+      aria-modal="true"
+      aria-label="Welcome to The Manteis Project"
+      onKeyDown={(e) => { if (e.key === 'Escape') handleEnter() }}
       className="fixed inset-0 z-50 bg-void flex flex-col items-center justify-center"
     >
       {/* Signal line across center */}
@@ -129,12 +133,12 @@ export function Gatekeeper() {
         </div>
 
         <div ref={titleRef} className="opacity-0">
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] leading-[0.9]">
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] leading-[0.9]">
             The Manteis
-          </h1>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-[-0.04em] leading-[0.9] text-signal">
+          </h2>
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-[-0.04em] leading-[0.9] text-signal">
             Project
-          </h1>
+          </h2>
         </div>
 
         <p
@@ -146,10 +150,11 @@ export function Gatekeeper() {
 
         <button
           ref={btnRef}
+          autoFocus
           onClick={handleEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="opacity-0 mt-10 font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-3 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300"
+          className="mt-10 font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-3 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300"
         >
           Enter Signal
         </button>

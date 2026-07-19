@@ -42,6 +42,8 @@ export function Navigation() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
           className="md:hidden font-mono text-[11px] tracking-[0.15em] uppercase text-light-muted"
         >
           {mobileOpen ? 'Close' : 'Menu'}

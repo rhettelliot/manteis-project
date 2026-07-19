@@ -18,9 +18,9 @@ const config: Config = {
         },
         signal: {
           // Electric Violet — the one signal
-          DEFAULT: '#7C3AED',
-          dim: 'rgba(124, 58, 237, 0.12)',
-          border: 'rgba(124, 58, 237, 0.4)',
+          DEFAULT: '#9F67F5',
+          dim: 'rgba(159, 103, 245, 0.12)',
+          border: 'rgba(159, 103, 245, 0.4)',
         },
         edge: {
           ghost: 'rgba(255,255,255,0.04)',
@@ -32,7 +32,7 @@ const config: Config = {
         light: {
           DEFAULT: '#F0F0F0',
           dim: '#999999',
-          muted: '#6B6B6B',
+          muted: '#767676',
         },
       },
       fontFamily: {
