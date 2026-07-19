@@ -25,7 +25,7 @@ const releases: Release[] = [
     coverArt: '/covers/TMP_VC.webp',
     hyperfollow: 'https://distrokid.com/hyperfollow/themanteisproject/violet-cirrus',
     spotify: 'https://open.spotify.com/album/4MdDdEioXQ41lbk6X0Nycy',
-    accentColor: '#7B2FBE',
+    accentColor: '#9F67F5',
     tagline: 'Stratospheric drift through ultraviolet corridors',
   },
   {
