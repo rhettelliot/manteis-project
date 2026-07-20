@@ -112,7 +112,7 @@ export function Gatekeeper() {
       <div
         ref={lineRef}
         className="absolute top-1/2 left-0 right-0 h-px origin-left"
-        style={{ background: 'linear-gradient(90deg, transparent, #007AFF, transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, var(--signal), transparent)' }}
       />
 
       {/* Content */}

@@ -115,12 +115,18 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(124,58,237,0.012) 2px,
-    rgba(124,58,237,0.012) 4px
+    rgba(159,103,245,0.012) 2px,
+    rgba(159,103,245,0.012) 4px
   );
 }
 
 /* Waveform bars — hard edged */
+/* Keyframes live here (not only in tailwind.config) because Tailwind only emits
+   keyframes referenced by an animate-* utility, and .waveform-bar is a plain class. */
+@keyframes wave-form {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(2.5); }
+}
 .waveform-bar {
   width: 2px;
   background: var(--signal);

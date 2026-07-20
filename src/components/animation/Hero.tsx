@@ -107,7 +107,7 @@ export function Hero() {
 
       {/* Telemetry markers */}
       <div className="hero-mark absolute top-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
-        SIG/7C3AED
+        SIG/9F67F5
       </div>
       <div className="hero-mark absolute top-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-signal">
         ● CARRIER LOCKED

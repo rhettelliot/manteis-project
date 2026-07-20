@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
+import { ARTIST_URL } from '@/lib/releases'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: 'https://themanteisproject.com/sitemap.xml',
+    sitemap: `${ARTIST_URL}/sitemap.xml`,
   }
 }

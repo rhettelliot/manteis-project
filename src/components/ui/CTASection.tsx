@@ -25,10 +25,10 @@ export function CTASection() {
             {Array.from({ length: 16 }).map((_, i) => (
               <div
                 key={i}
-                className="w-[2px] rounded-full"
+                className="w-[2px]"
                 style={{
                   height: `${6 + Math.abs(Math.sin(i * 0.5)) * 22}px`,
-                  backgroundColor: i % 3 === 0 ? 'var(--amber)' : 'var(--signal)',
+                  backgroundColor: 'var(--signal)',
                   opacity: 0.6 + (i % 3) * 0.15,
                 }}
               />
