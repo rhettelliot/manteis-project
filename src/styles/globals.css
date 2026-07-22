@@ -156,8 +156,8 @@ body {
 
 /* Keyboard navigation — signal outline, only for keyboard focus */
 :focus-visible {
-  outline: 1px solid var(--signal);
-  outline-offset: 3px;
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
 }
 
 /* Skip link — first focusable element, visually hidden until focused */

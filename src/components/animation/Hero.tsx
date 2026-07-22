@@ -1,10 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { prefersReducedMotion } from '@/lib/motion'
 
 const titleLines = ['The', 'Manteis', 'Project']
 
@@ -15,80 +12,82 @@ export function Hero() {
   const indicatorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = prefersReducedMotion()
 
-    const ctx = gsap.context(() => {
-      const lines = gsap.utils.toArray<HTMLElement>('.hero-line')
-      const frame = gsap.utils.toArray<HTMLElement>('.hero-frame')
-      const marks = gsap.utils.toArray<HTMLElement>('.hero-mark')
+    let ctx: { revert: () => void } | null = null
+    ;(async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ])
+      gsap.registerPlugin(ScrollTrigger)
 
-      if (reduced) {
-        gsap.set([lines, marks, subRef.current], { opacity: 1, y: 0 })
-        gsap.set(frame, { scaleX: 1, scaleY: 1, opacity: 1 })
-        return
-      }
+      ctx = gsap.context(() => {
+        const lines = gsap.utils.toArray<HTMLElement>('.hero-line')
+        const frame = gsap.utils.toArray<HTMLElement>('.hero-frame')
+        const marks = gsap.utils.toArray<HTMLElement>('.hero-mark')
 
-      const tl = gsap.timeline({ delay: 0.2 })
+        if (reduced) {
+          gsap.set([lines, marks, subRef.current], { opacity: 1, y: 0 })
+          gsap.set(frame, { scaleX: 1, scaleY: 1, opacity: 1 })
+          return
+        }
 
-      // Structural frame draws in first — the architecture assembles
-      tl.fromTo(
-        '.hero-frame-h',
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 1, duration: 1.1, ease: 'power4.inOut', stagger: 0.08 }
-      )
-      tl.fromTo(
-        '.hero-frame-v',
-        { scaleY: 0, opacity: 0 },
-        { scaleY: 1, opacity: 1, duration: 1.1, ease: 'power4.inOut', stagger: 0.08 },
-        '<'
-      )
+        const tl = gsap.timeline({ delay: 0.2 })
 
-      // Title lines rise out of the structure
-      tl.fromTo(
-        lines,
-        { yPercent: 110 },
-        { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.12 },
-        '-=0.6'
-      )
+        tl.fromTo(
+          '.hero-frame-h',
+          { scaleX: 0, opacity: 0 },
+          { scaleX: 1, opacity: 1, duration: 1.1, ease: 'power4.inOut', stagger: 0.08 }
+        )
+        tl.fromTo(
+          '.hero-frame-v',
+          { scaleY: 0, opacity: 0 },
+          { scaleY: 1, opacity: 1, duration: 1.1, ease: 'power4.inOut', stagger: 0.08 },
+          '<'
+        )
+        tl.fromTo(
+          lines,
+          { yPercent: 110 },
+          { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.12 },
+          '-=0.6'
+        )
+        tl.fromTo(
+          marks,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.06 },
+          '-=0.5'
+        )
+        tl.fromTo(
+          subRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8, ease: 'power2.out' },
+          '-=0.4'
+        )
 
-      // Telemetry marks and subtitle settle last
-      tl.fromTo(
-        marks,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.06 },
-        '-=0.5'
-      )
-      tl.fromTo(
-        subRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '-=0.4'
-      )
+        gsap.to(indicatorRef.current, {
+          y: 8,
+          duration: 1.5,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        })
 
-      // Scroll indicator idle drift
-      gsap.to(indicatorRef.current, {
-        y: 8,
-        duration: 1.5,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-      })
+        gsap.to(titleRef.current, {
+          y: -80,
+          opacity: 0.4,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        })
+      }, heroRef)
+    })()
 
-      // Parallax on scroll — title recedes into the void
-      gsap.to(titleRef.current, {
-        y: -80,
-        opacity: 0.4,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      })
-    }, heroRef)
-
-    return () => ctx.revert()
+    return () => ctx?.revert()
   }, [])
 
   return (

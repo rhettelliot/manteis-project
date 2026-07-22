@@ -2,58 +2,38 @@
 
 import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { prefersReducedMotion } from '@/lib/motion'
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Native scroll for users who opt out of motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (prefersReducedMotion()) return
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    })
+    let cleanup: (() => void) | undefined
 
-    lenisRef.current = lenis
+    ;(async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ])
+      gsap.registerPlugin(ScrollTrigger)
 
-    lenis.on('scroll', ScrollTrigger.update)
+      const lenis = new Lenis({ lerp: 0.07, smoothWheel: true })
+      lenisRef.current = lenis
 
-    const tick = (time: number) => {
-      lenis.raf(time * 1000)
-    }
-    gsap.ticker.add(tick)
+      lenis.on('scroll', ScrollTrigger.update)
+      gsap.ticker.add((time) => { lenis.raf(time * 1000) })
+      gsap.ticker.lagSmoothing(0)
 
-    gsap.ticker.lagSmoothing(0)
+      cleanup = () => {
+        lenis.destroy()
+        gsap.ticker.remove(lenis.raf)
+      }
+    })()
 
-    return () => {
-      lenis.destroy()
-      gsap.ticker.remove(tick)
-    }
+    return () => cleanup?.()
   }, [])
 
-  return (
-    <div className="relative">
-      {/* Fog vignette — top */}
-      <div
-        className="fixed top-0 left-0 right-0 h-40 pointer-events-none z-30"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)',
-        }}
-      />
-      {/* Fog vignette — bottom */}
-      <div
-        className="fixed bottom-0 left-0 right-0 h-40 pointer-events-none z-30"
-        style={{
-          background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
-        }}
-      />
-      {children}
-    </div>
-  )
+  return <>{children}</>
 }

@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+
+let gsapInstance: typeof import('gsap')['default'] | null = null
 
 export function Gatekeeper() {
   const [entered, setEntered] = useState(() => {
@@ -18,61 +19,68 @@ export function Gatekeeper() {
   const waveRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (entered) return
+    let ctx: { revert: () => void } | null = null
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline()
+    ;(async () => {
+      gsapInstance = (await import('gsap')).default
+      if (!gsapInstance || entered) return
 
-      // Signal line draws across
-      tl.fromTo(
-        lineRef.current,
-        { scaleX: 0 },
-        { scaleX: 1, duration: 1.2, ease: 'power4.inOut' }
-      )
+      const g = gsapInstance
+      ctx = g.context(() => {
+        const tl = g.timeline()
 
-      // Title reveal — split by lines
-      tl.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-        '-=0.3'
-      )
-
-      // Tagline fade
-      tl.fromTo(
-        tagRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        '-=0.3'
-      )
-
-      // Waveform bars stagger in
-      if (waveRef.current) {
-        const bars = waveRef.current.children
+        // Signal line draws across
         tl.fromTo(
-          bars,
-          { scaleY: 0, opacity: 0 },
-          { scaleY: 1, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' },
+          lineRef.current,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 1.2, ease: 'power4.inOut' }
+        )
+
+        // Title reveal — split by lines
+        tl.fromTo(
+          titleRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
           '-=0.3'
         )
-      }
 
-      // Enter button
-      tl.fromTo(
-        btnRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        '-=0.2'
-      )
-    }, containerRef)
+        // Tagline fade
+        tl.fromTo(
+          tagRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          '-=0.3'
+        )
 
-    return () => ctx.revert()
+        // Waveform bars stagger in
+        if (waveRef.current) {
+          const bars = waveRef.current.children
+          tl.fromTo(
+            bars,
+            { scaleY: 0, opacity: 0 },
+            { scaleY: 1, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' },
+            '-=0.3'
+          )
+        }
+
+        // Enter button
+        tl.fromTo(
+          btnRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+          '-=0.2'
+        )
+      }, containerRef)
+    })()
+
+    return () => ctx?.revert()
   }, [entered])
 
   if (entered) return null
 
   const handleEnter = () => {
-    gsap.to(containerRef.current, {
+    if (!gsapInstance || !containerRef.current) return
+    gsapInstance.to(containerRef.current, {
       opacity: 0,
       scale: 1.02,
       duration: 0.6,
@@ -87,15 +95,17 @@ export function Gatekeeper() {
 
   // Magnetic hover for button
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!gsapInstance) return
     const btn = e.currentTarget
     const rect = btn.getBoundingClientRect()
     const x = e.clientX - rect.left - rect.width / 2
     const y = e.clientY - rect.top - rect.height / 2
-    gsap.to(btn, { x: x * 0.15, y: y * 0.15, duration: 0.3, ease: 'power2.out' })
+    gsapInstance.to(btn, { x: x * 0.15, y: y * 0.15, duration: 0.3, ease: 'power2.out' })
   }
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    gsap.to(e.currentTarget, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' })
+    if (!gsapInstance) return
+    gsapInstance.to(e.currentTarget, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' })
   }
 
   return (
