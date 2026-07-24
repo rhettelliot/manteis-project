@@ -52,11 +52,26 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'WebSite',
+      '@id': `${ARTIST_URL}/#website`,
+      url: ARTIST_URL,
+      name: 'The Manteis Project',
+      inLanguage: 'en',
+      publisher: { '@id': `${ARTIST_URL}/#artist` },
+    },
+    {
       '@type': 'MusicGroup',
       '@id': `${ARTIST_URL}/#artist`,
       name: 'The Manteis Project',
       url: ARTIST_URL,
+      description:
+        'Ambient / quantum architecture — signal processing as sound architecture. Four releases on Manteis Recordings.',
+      image: `${ARTIST_URL}/og.jpg`,
       genre: ['Ambient', 'Electronic'],
+      foundingLocation: {
+        '@type': 'Place',
+        name: 'Seattle, WA',
+      },
       sameAs: [SPOTIFY_ARTIST, APPLE_MUSIC_ARTIST],
       recordLabel: {
         '@type': 'Organization',

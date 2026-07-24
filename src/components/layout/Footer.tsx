@@ -1,10 +1,30 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+import { revealOnEnter } from '@/lib/reveal'
+
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const root = footerRef.current
+    if (!root) return
+    const disposers: Array<() => void> = []
+    ;(async () => {
+      disposers.push(await revealOnEnter(root.querySelectorAll('.footer-identity'), { y: 30, duration: 0.6 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.footer-stream'), { y: 30, duration: 0.6, stagger: 0.08 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.footer-network'), { y: 20, duration: 0.5 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.footer-bottom'), { y: 16, duration: 0.5 }))
+    })()
+    return () => disposers.forEach((d) => d())
+  }, [])
+
   return (
-    <footer className="py-16 md:py-24 border-t border-edge-faint">
+    <footer ref={footerRef} className="relative py-16 md:py-24 border-t border-edge-faint">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           {/* Left — identity */}
-          <div>
+          <div className="footer-identity">
             <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">
               The Manteis Project
             </h3>
@@ -17,7 +37,7 @@ export function Footer() {
           </div>
 
           {/* Right — streaming */}
-          <div className="flex flex-col items-start md:items-end gap-3">
+          <div className="footer-stream flex flex-col items-start md:items-end gap-3">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-light-muted mb-1">
               Stream
             </span>
@@ -43,7 +63,7 @@ export function Footer() {
         </div>
 
         {/* Manteis Network — cross-site discovery */}
-        <div className="mt-10 pt-8 border-t border-edge-faint flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+        <div className="footer-network mt-10 pt-8 border-t border-edge-faint flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           <div className="flex flex-col gap-2">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-light-muted mb-1">
               Label
@@ -72,7 +92,7 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-6 border-t border-edge-faint flex flex-col md:flex-row justify-between items-center gap-2">
+        <div className="footer-bottom mt-12 pt-6 border-t border-edge-faint flex flex-col md:flex-row justify-between items-center gap-2">
           <p className="font-mono text-[9px] tracking-[0.15em] text-light-muted">
             © {new Date().getFullYear()} The Manteis Project. All frequencies reserved.
           </p>

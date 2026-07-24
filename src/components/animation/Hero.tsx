@@ -10,6 +10,7 @@ export function Hero() {
   const titleRef = useRef<HTMLDivElement>(null)
   const subRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reduced = prefersReducedMotion()
@@ -28,7 +29,7 @@ export function Hero() {
         const marks = gsap.utils.toArray<HTMLElement>('.hero-mark')
 
         if (reduced) {
-          gsap.set([lines, marks, subRef.current], { opacity: 1, y: 0 })
+          gsap.set([lines, marks, subRef.current, labelRef.current], { opacity: 1, y: 0 })
           gsap.set(frame, { scaleX: 1, scaleY: 1, opacity: 1 })
           return
         }
@@ -57,6 +58,12 @@ export function Hero() {
           { opacity: 0, y: 8 },
           { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.06 },
           '-=0.5'
+        )
+        tl.fromTo(
+          labelRef.current,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          '-=0.4'
         )
         tl.fromTo(
           subRef.current,
@@ -105,20 +112,31 @@ export function Hero() {
       </div>
 
       {/* Telemetry markers */}
-      <div className="hero-mark absolute top-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
+      <div aria-hidden="true" className="hero-mark hidden sm:block absolute top-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
         SIG/9F67F5
       </div>
-      <div className="hero-mark absolute top-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-signal">
+      <div aria-hidden="true" className="hero-mark hidden sm:block absolute top-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-signal">
         ● CARRIER LOCKED
       </div>
-      <div className="hero-mark absolute bottom-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
+      <div aria-hidden="true" className="hero-mark hidden sm:block absolute bottom-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
         MR-004 → MR-008
       </div>
-      <div className="hero-mark absolute bottom-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
+      <div aria-hidden="true" className="hero-mark hidden sm:block absolute bottom-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-light-muted">
         AMBIENT / QUANTUM ARCHITECTURE
       </div>
 
-      {/* Main title — each line masked and revealed */}
+      {/* Silkscreen label */}
+      <div
+        ref={labelRef}
+        className="absolute top-[24%] left-1/2 -translate-x-1/2 z-10"
+        aria-hidden="true"
+      >
+        <div className="font-mono text-[9px] tracking-[0.25em] uppercase text-signal/70 border border-signal/40 px-3 py-1.5 bg-void/40 backdrop-blur-sm">
+          TMP-004 // QUANTUM ARCHITECTURE
+        </div>
+      </div>
+
+      {/* Main title */}
       <div ref={titleRef} className="relative z-10 text-center px-6">
         <h1 className="font-display text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-[-0.04em] leading-[0.88]">
           {titleLines.map((line) => (

@@ -12,29 +12,29 @@ export function CTASection() {
     const disposers: Array<() => void> = []
     ;(async () => {
       disposers.push(await revealOnEnter(root.querySelectorAll('.cta-content'), { y: 40, duration: 0.8 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.cta-waves'), { y: 20, duration: 0.6 }))
     })()
     return () => disposers.forEach((d) => d())
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-32 md:py-48">
+    <section ref={sectionRef} className="relative py-32 md:py-48">
       <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
-        <div className="cta-content">
-          {/* Signal icon */}
-          <div className="flex items-end justify-center gap-[2px] mb-8 h-8">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-[2px]"
-                style={{
-                  height: `${6 + Math.abs(Math.sin(i * 0.5)) * 22}px`,
-                  backgroundColor: 'var(--signal)',
-                  opacity: 0.6 + (i % 3) * 0.15,
-                }}
-              />
-            ))}
-          </div>
+        <div className="cta-waves flex items-end justify-center gap-[2px] mb-8 h-8">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <div
+              key={i}
+              className="w-[2px]"
+              style={{
+                height: `${6 + Math.abs(Math.sin(i * 0.5)) * 22}px`,
+                backgroundColor: 'var(--signal)',
+                opacity: 0.6 + (i % 3) * 0.15,
+              }}
+            />
+          ))}
+        </div>
 
+        <div className="cta-content">
           <h2 className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.05]">
             Transmit your signal.
           </h2>

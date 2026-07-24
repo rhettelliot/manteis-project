@@ -12,7 +12,7 @@ export default function NotFound() {
       <h1 className="font-display text-4xl md:text-6xl mt-6 mb-4" style={{ color: '#F0F0F0' }}>
         Page not found
       </h1>
-      <p className="font-body text-sm mb-12" style={{ color: '#888888' }}>
+      <p className="font-body text-sm mb-12" style={{ color: '#999999' }}>
         This frequency does not resolve.
       </p>
       <Link

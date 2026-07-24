@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { Gatekeeper } from '@/components/layout/Gatekeeper'
 import { Navigation } from '@/components/layout/Navigation'
 import { SmoothScroll } from '@/components/layout/SmoothScroll'
+import { FloatingParticles } from '@/components/animation/FloatingParticles'
+import { ScrollProgressPath } from '@/components/animation/ScrollProgressPath'
 import { Hero } from '@/components/animation/Hero'
 import { Discography } from '@/components/sections/Discography'
 import { SignalData } from '@/components/sections/SignalData'
@@ -34,6 +36,8 @@ export default function Home() {
       <Gatekeeper />
       {entered && (
         <SmoothScroll>
+          <FloatingParticles />
+          <ScrollProgressPath />
           <header>
             <Navigation />
           </header>

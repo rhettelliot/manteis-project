@@ -22,12 +22,13 @@ export function Statement() {
     const disposers: Array<() => void> = []
     ;(async () => {
       disposers.push(await revealOnEnter(root.querySelectorAll('.manifesto-line'), { y: 40, duration: 0.7, stagger: 0.04 }))
+      disposers.push(await revealOnEnter(root.querySelectorAll('.statement-end'), { y: 24, duration: 0.6 }))
     })()
     return () => disposers.forEach((d) => d())
   }, [])
 
   return (
-    <section ref={sectionRef} id="statement" className="py-32 md:py-48">
+    <section ref={sectionRef} id="statement" className="relative py-32 md:py-48">
       <div className="max-w-5xl mx-auto px-6 md:px-12">
         <div className="section-label mb-20">Statement /</div>
 
@@ -49,7 +50,7 @@ export function Statement() {
         </div>
 
         {/* Closing signal line */}
-        <div className="mt-16 signal-line w-32" />
+        <div className="statement-end mt-16 signal-line w-32" />
       </div>
     </section>
   )

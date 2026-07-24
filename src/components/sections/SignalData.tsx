@@ -35,11 +35,11 @@ export function SignalData() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="signal" className="py-24 md:py-40" aria-label="Signal data">
+    <section ref={sectionRef} id="signal" className="relative py-24 md:py-40" aria-label="Signal data">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="section-label mb-16">01 / Signal Data</div>
 
-        {/* Primary readouts — instrument face */}
+        {/* Primary readouts */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-edge-faint border border-edge-faint">
           {readouts.map((r) => (
             <div key={r.label} className="data-cell bg-void p-6 md:p-10 flex flex-col justify-between min-h-[160px] md:min-h-[200px]">
@@ -62,7 +62,7 @@ export function SignalData() {
           ))}
         </div>
 
-        {/* Channel readout — terminal rows */}
+        {/* Channel readout */}
         <div className="mt-16 max-w-2xl">
           {channels.map((ch) => (
             <div key={ch.label} className="channel-row telemetry-row">

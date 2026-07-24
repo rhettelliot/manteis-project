@@ -1,8 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { prefersReducedMotion } from '@/lib/motion'
 
 let gsapInstance: typeof import('gsap')['default'] | null = null
+
+// Deterministic bar heights — computed the same on server and client so the
+// waveform never triggers a hydration mismatch (Math.random() would differ).
+const BAR_COUNT = 24
+const barHeights = Array.from({ length: BAR_COUNT }, (_, i) => 8 + Math.abs(Math.sin(i * 2.399)) * 24)
 
 export function Gatekeeper() {
   const [entered, setEntered] = useState(() => {
@@ -27,6 +33,15 @@ export function Gatekeeper() {
 
       const g = gsapInstance
       ctx = g.context(() => {
+        // Respect reduced motion — GSAP tweens aren't covered by the CSS
+        // prefers-reduced-motion rule, so land everything in its final state.
+        if (prefersReducedMotion()) {
+          g.set(lineRef.current, { scaleX: 1 })
+          g.set([titleRef.current, tagRef.current, btnRef.current], { opacity: 1, y: 0 })
+          if (waveRef.current) g.set(waveRef.current.children, { scaleY: 1, opacity: 1 })
+          return
+        }
+
         const tl = g.timeline()
 
         // Signal line draws across
@@ -79,17 +94,21 @@ export function Gatekeeper() {
   if (entered) return null
 
   const handleEnter = () => {
-    if (!gsapInstance || !containerRef.current) return
+    const finish = () => {
+      sessionStorage.setItem('tmp-entered', 'true')
+      window.dispatchEvent(new Event('tmp-enter'))
+      setEntered(true)
+    }
+    if (!gsapInstance || !containerRef.current || prefersReducedMotion()) {
+      finish()
+      return
+    }
     gsapInstance.to(containerRef.current, {
       opacity: 0,
       scale: 1.02,
       duration: 0.6,
       ease: 'power2.in',
-      onComplete: () => {
-        sessionStorage.setItem('tmp-entered', 'true')
-        window.dispatchEvent(new Event('tmp-enter'))
-        setEntered(true)
-      },
+      onComplete: finish,
     })
   }
 
@@ -115,7 +134,15 @@ export function Gatekeeper() {
       role="dialog"
       aria-modal="true"
       aria-label="Welcome to The Manteis Project"
-      onKeyDown={(e) => { if (e.key === 'Escape') handleEnter() }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') { handleEnter(); return }
+        // aria-modal focus trap: the Enter button is the only interactive
+        // element, so keep Tab from escaping the gate to background chrome.
+        if (e.key === 'Tab') {
+          e.preventDefault()
+          btnRef.current?.focus()
+        }
+      }}
       className="fixed inset-0 z-50 bg-void flex flex-col items-center justify-center"
     >
       {/* Signal line across center */}
@@ -128,13 +155,13 @@ export function Gatekeeper() {
       {/* Content */}
       <div className="relative z-10 text-center px-6">
         {/* Waveform bars */}
-        <div ref={waveRef} className="flex items-end justify-center gap-[3px] mb-8 h-8">
-          {Array.from({ length: 24 }).map((_, i) => (
+        <div ref={waveRef} className="flex items-end justify-center gap-[3px] mb-8 h-8" aria-hidden="true">
+          {barHeights.map((h, i) => (
             <div
               key={i}
               className="waveform-bar"
               style={{
-                height: `${8 + Math.random() * 24}px`,
+                height: `${h}px`,
                 animationDelay: `${i * 0.06}s`,
                 opacity: 0.6,
               }}
