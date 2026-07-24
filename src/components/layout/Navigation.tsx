@@ -14,7 +14,7 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-40 bg-void/80 backdrop-blur-xl border-b border-edge-faint">
       <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="font-display text-lg font-bold tracking-[-0.02em]">
+        <a href="#" className="font-display text-lg font-bold tracking-[-0.02em] text-cream">
           <span className="text-signal">TMP</span>
         </a>
 
@@ -24,7 +24,7 @@ export function Navigation() {
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-[11px] tracking-[0.15em] uppercase text-light-muted hover:text-signal transition-colors duration-300"
+              className="font-mono text-[11px] tracking-[0.15em] uppercase text-cream-muted hover:text-signal transition-colors duration-300"
             >
               {link.label}
             </a>
@@ -33,7 +33,7 @@ export function Navigation() {
             href="https://distrokid.com/hyperfollow/themanteisproject/violet-cirrus"
             target="_blank"
             rel="noreferrer noopener"
-            className="font-mono text-[11px] tracking-[0.15em] uppercase text-signal border border-signal px-4 py-2 btn-snap hover:bg-signal hover:text-void transition-colors duration-300"
+            className="font-mono text-[11px] tracking-[0.15em] uppercase text-signal border border-signal px-4 py-2 btn-snap hover:bg-signal hover:text-void transition-colors duration-300 stamp-texture"
           >
             Listen
           </a>
@@ -44,7 +44,7 @@ export function Navigation() {
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
-          className="md:hidden font-mono text-[11px] tracking-[0.15em] uppercase text-light-muted"
+          className="md:hidden font-mono text-[11px] tracking-[0.15em] uppercase text-cream-muted"
         >
           {mobileOpen ? 'Close' : 'Menu'}
         </button>
@@ -58,7 +58,7 @@ export function Navigation() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block font-mono text-[12px] tracking-[0.15em] uppercase text-light-muted hover:text-signal transition-colors duration-300"
+              className="block font-mono text-[12px] tracking-[0.15em] uppercase text-cream-muted hover:text-signal transition-colors duration-300"
             >
               {link.label}
             </a>

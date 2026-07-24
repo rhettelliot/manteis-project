@@ -19,7 +19,10 @@ export function CTASection() {
 
   return (
     <section ref={sectionRef} className="relative py-32 md:py-48">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
+      {/* Wireframe grid tunnel */}
+      <div className="wireframe-tunnel absolute inset-0 opacity-30" aria-hidden="true" />
+
+      <div className="max-w-4xl mx-auto px-6 md:px-12 text-center relative z-10">
         <div className="cta-waves flex items-end justify-center gap-[2px] mb-8 h-8">
           {Array.from({ length: 16 }).map((_, i) => (
             <div
@@ -35,17 +38,17 @@ export function CTASection() {
         </div>
 
         <div className="cta-content">
-          <h2 className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.05]">
+          <h2 className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.05] text-cream">
             Transmit your signal.
           </h2>
-          <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-light-muted mt-4">
+          <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-cream-muted mt-4">
             Manteis Recordings accepts demos from artists pushing into uncharted frequency
           </p>
 
           <div className="mt-10">
             <a
               href="mailto:demo@manteisrecordings.com"
-              className="inline-block font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-4 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300"
+              className="inline-block font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-4 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300 stamp-texture"
             >
               Submit Demo
             </a>

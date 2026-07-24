@@ -23,6 +23,10 @@
   --light: #F0F0F0;
   --light-dim: #999999;
   --light-muted: #767676;
+
+  --cream: #FDFCDC;
+  --cream-dim: #C8C6B4;
+  --cream-muted: #969480;
 }
 
 * {
@@ -81,7 +85,156 @@ body {
   color: var(--signal);
 }
 
-/* Divider — structural edge, not glow */
+/* Cream text override for quantum architecture */
+.text-cream { color: var(--cream); }
+.text-cream-dim { color: var(--cream-dim); }
+.text-cream-muted { color: var(--cream-muted); }
+
+/* Topographic quantum field overlay */
+.topo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 50% 120%, rgba(159, 103, 245, 0.08) 0%, transparent 55%),
+    repeating-radial-gradient(
+      circle at 50% 120%,
+      transparent 0,
+      transparent 18px,
+      rgba(159, 103, 245, 0.07) 18px,
+      rgba(159, 103, 245, 0.07) 19px
+    ),
+    repeating-radial-gradient(
+      circle at 50% 120%,
+      transparent 0,
+      transparent 42px,
+      rgba(253, 252, 220, 0.04) 42px,
+      rgba(253, 252, 220, 0.04) 43px
+    );
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%);
+}
+
+/* Wireframe perspective grid tunnel */
+.wireframe-tunnel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(159, 103, 245, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(159, 103, 245, 0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(1000px) rotateX(70deg);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
+  opacity: 0.5;
+}
+
+/* Orbital connecting curves */
+.orbital-curve {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+
+/* Parallel line pattern overlay */
+.parallel-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 8px,
+    rgba(159, 103, 245, 0.06) 8px,
+    rgba(159, 103, 245, 0.06) 9px
+  );
+  mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+}
+
+/* Concentric frame tunnel */
+.concentric-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.concentric-frame::before {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  border: 1px solid rgba(159, 103, 245, 0.15);
+  transform: rotate(45deg);
+}
+.concentric-frame::after {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  border: 1px solid rgba(253, 252, 220, 0.08);
+  transform: rotate(45deg);
+}
+
+/* Diamond geometric mask */
+.diamond-mask {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Stamp / badge texture */
+.stamp-texture {
+  position: relative;
+  border: 1px solid rgba(253, 252, 220, 0.25);
+  background:
+    radial-gradient(circle, rgba(253, 252, 220, 0.03) 0%, transparent 70%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(253, 252, 220, 0.02),
+      rgba(253, 252, 220, 0.02) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+}
+.stamp-texture::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed rgba(253, 252, 220, 0.15);
+  pointer-events: none;
+}
+
+/* Massive display catalog numbers */
+.catalog-display {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(4rem, 14vw, 12rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  color: var(--cream);
+  opacity: 0.08;
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+/* Metadata mono strip */
+.mono-strip {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+  border-top: 1px solid rgba(253, 252, 220, 0.1);
+  border-bottom: 1px solid rgba(253, 252, 220, 0.1);
+  padding: 0.5rem 0;
+}
+
 .divider-edge {
   height: 1px;
   background: var(--edge-faint);

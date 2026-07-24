@@ -34,6 +34,11 @@ const config: Config = {
           dim: '#999999',
           muted: '#767676',
         },
+        cream: {
+          DEFAULT: '#FDFCDC',
+          dim: '#C8C6B4',
+          muted: '#969480',
+        },
       },
       fontFamily: {
         display: ['var(--font-body)', 'system-ui', 'sans-serif'],
@@ -61,6 +66,10 @@ const config: Config = {
           '0%, 100%': { transform: 'scaleY(1)' },
           '50%': { transform: 'scaleY(2.5)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.8s ease-out forwards',
@@ -68,6 +77,7 @@ const config: Config = {
         'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
         'scan-line': 'scan-line 8s linear infinite',
         'wave-form': 'wave-form 1.2s ease-in-out infinite',
+        marquee: 'marquee 24s linear infinite',
       },
     },
   },

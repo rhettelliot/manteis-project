@@ -46,6 +46,18 @@ function TiltCard({ release, index, className = '' }: TiltCardProps) {
       onMouseLeave={handleMouseLeave}
       data-index={index}
     >
+      {/* Concentric frame tunnel overlay */}
+      <div className="concentric-frame z-10" aria-hidden="true" />
+
+      {/* Geometric diamond mask overlay */}
+      <div
+        className="absolute inset-0 z-20 pointer-events-none diamond-mask opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+        aria-hidden="true"
+        style={{
+          background: 'radial-gradient(circle, rgba(159,103,245,0.12) 0%, transparent 70%)',
+        }}
+      />
+
       <div className="relative w-full h-full overflow-hidden">
         <Image
           src={release.coverArt}
@@ -62,28 +74,33 @@ function TiltCard({ release, index, className = '' }: TiltCardProps) {
         />
       </div>
 
-      <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-between pointer-events-none">
+      {/* Massive catalog number as display art */}
+      <div className="catalog-display absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 group-hover:opacity-20 transition-opacity duration-500">
+        {release.catalogNumber}
+      </div>
+
+      <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-between pointer-events-none z-30">
         <div className="flex justify-between items-start">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-light/70 bg-void/60 backdrop-blur-sm px-2 py-1 border border-edge-faint">
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-cream/70 bg-void/60 backdrop-blur-sm px-2 py-1 border border-cream/10 stamp-texture">
             {release.catalogNumber}
           </span>
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-light/50">
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-cream-muted">
             {release.year}
           </span>
         </div>
 
         <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-          <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold tracking-[-0.03em] text-light leading-[0.95]">
+          <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold tracking-[-0.03em] text-cream leading-[0.95]">
             {release.title}
           </h3>
-          <p className="font-body text-sm text-light-dim mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-w-[85%]">
+          <p className="font-body text-sm text-cream-dim mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-w-[85%]">
             {release.tagline}
           </p>
           <div className="mt-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-signal border border-signal px-2 py-1">
               Listen
             </span>
-            <span className="font-mono text-[9px] tracking-[0.1em] text-light-muted">
+            <span className="font-mono text-[9px] tracking-[0.1em] text-cream-muted">
               {release.trackCount} TRK
             </span>
           </div>
@@ -95,6 +112,7 @@ function TiltCard({ release, index, className = '' }: TiltCardProps) {
 
 export function Discography() {
   const sectionRef = useRef<HTMLElement>(null)
+  const orbitalRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
     const root = sectionRef.current
@@ -115,16 +133,40 @@ export function Discography() {
 
   return (
     <section ref={sectionRef} id="discography" className="relative py-32 md:py-48">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+      {/* Wireframe grid tunnel */}
+      <div className="wireframe-tunnel absolute inset-0" aria-hidden="true" />
+
+      {/* Orbital path curves connecting 4 releases */}
+      <svg
+        ref={orbitalRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        aria-hidden="true"
+        preserveAspectRatio="none"
+        viewBox="0 0 100 100"
+      >
+        <path
+          className="orbital-curve"
+          d="M10,50 C30,10 70,10 90,50 S70,90 50,90 S10,70 10,50"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="orbital-curve"
+          d="M5,50 C25,0 75,0 95,50 S75,100 50,100 S5,75 5,50"
+          vectorEffect="non-scaling-stroke"
+          style={{ opacity: 0.12 }}
+        />
+      </svg>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 md:mb-20">
           <div className="bento-label">
             <div className="section-label mb-4">Releases /</div>
-            <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[-0.04em] leading-[0.9]">
+            <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[-0.04em] leading-[0.9] text-cream">
               Signal
               <span className="text-signal"> Architecture</span>
             </h2>
           </div>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-light-muted mt-4 md:mt-0 md:text-right max-w-xs">
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-cream-muted mt-4 md:mt-0 md:text-right max-w-xs">
             Four transmissions from the Manteis Project frequency range
           </p>
         </div>
@@ -139,6 +181,22 @@ export function Discography() {
           />
           <TiltCard release={releases[3]} index={3} className="md:col-span-2"
           />
+        </div>
+
+        {/* Massive display catalog numbers strip */}
+        <div className="mt-20 overflow-hidden border-y border-edge-faint py-6">
+          <div className="flex gap-12 md:gap-24 animate-marquee whitespace-nowrap">
+            {releases.map((r) => (
+              <span key={r.id} className="font-mono text-[clamp(3rem,10vw,8rem)] font-bold tracking-[-0.04em] text-cream/10">
+                {r.catalogNumber}
+              </span>
+            ))}
+            {releases.map((r) => (
+              <span key={`dup-${r.id}`} className="font-mono text-[clamp(3rem,10vw,8rem)] font-bold tracking-[-0.04em] text-cream/10">
+                {r.catalogNumber}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 

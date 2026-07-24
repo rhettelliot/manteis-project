@@ -145,6 +145,9 @@ export function Gatekeeper() {
       }}
       className="fixed inset-0 z-50 bg-void flex flex-col items-center justify-center"
     >
+      {/* Topographic quantum field overlay */}
+      <div className="topo-overlay absolute inset-0 opacity-60" aria-hidden="true" />
+
       {/* Signal line across center */}
       <div
         ref={lineRef}
@@ -170,7 +173,7 @@ export function Gatekeeper() {
         </div>
 
         <div ref={titleRef} className="opacity-0">
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] leading-[0.9]">
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] leading-[0.9] text-cream">
             The Manteis
           </h2>
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-[-0.04em] leading-[0.9] text-signal">
@@ -180,7 +183,7 @@ export function Gatekeeper() {
 
         <p
           ref={tagRef}
-          className="opacity-0 font-mono text-[11px] tracking-[0.3em] uppercase text-light-muted mt-6"
+          className="opacity-0 font-mono text-[11px] tracking-[0.3em] uppercase text-cream-muted mt-6"
         >
           Ambient · Experimental · Signal
         </p>
@@ -191,23 +194,23 @@ export function Gatekeeper() {
           onClick={handleEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="mt-10 font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-3 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300"
+          className="mt-10 font-mono text-[11px] tracking-[0.2em] uppercase px-8 py-3 border border-signal text-signal btn-snap hover:bg-signal hover:text-void transition-colors duration-300 stamp-texture"
         >
           Enter Signal
         </button>
       </div>
 
       {/* Corner data markers */}
-      <div className="absolute top-6 left-6 font-mono text-[9px] tracking-[0.15em] text-light-muted">
+      <div className="absolute top-6 left-6 font-mono text-[9px] tracking-[0.15em] text-cream-muted">
         TMP/001
       </div>
       <div className="absolute top-6 right-6 font-mono text-[9px] tracking-[0.15em] text-signal opacity-40">
         ● LIVE
       </div>
-      <div className="absolute bottom-6 left-6 font-mono text-[9px] tracking-[0.15em] text-light-muted">
-        MR-004 → MR-008
+      <div className="absolute bottom-6 left-6 font-mono text-[9px] tracking-[0.15em] text-cream-muted">
+        MR-001 → MR-005
       </div>
-      <div className="absolute bottom-6 right-6 font-mono text-[9px] tracking-[0.15em] text-light-muted">
+      <div className="absolute bottom-6 right-6 font-mono text-[9px] tracking-[0.15em] text-cream-muted">
         48°N 122°W
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { revealOnEnter } from '@/lib/reveal'
+import { releases } from '@/lib/releases'
 
 const manifesto = [
   'Sound is architecture.',
@@ -29,7 +30,10 @@ export function Statement() {
 
   return (
     <section ref={sectionRef} id="statement" className="relative py-32 md:py-48">
-      <div className="max-w-5xl mx-auto px-6 md:px-12">
+      {/* Parallel line pattern overlay */}
+      <div className="parallel-lines absolute inset-0 opacity-30" aria-hidden="true" />
+
+      <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
         <div className="section-label mb-20">Statement /</div>
 
         <div className="space-y-6 md:space-y-8">
@@ -40,12 +44,22 @@ export function Statement() {
                 i === manifesto.length - 1
                   ? 'font-bold text-signal'
                   : i === manifesto.length - 2
-                    ? 'text-light-dim'
-                    : 'text-light'
+                    ? 'text-cream-dim'
+                    : 'text-cream'
               }`}
             >
               {line}
             </p>
+          ))}
+        </div>
+
+        {/* Technical metadata strip */}
+        <div className="statement-end mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {releases.map((r) => (
+            <div key={r.id} className="mono-strip">
+              <span className="block text-cream-muted">{r.catalogNumber}</span>
+              <span className="block text-cream-dim">{r.frequency} · {r.duration}</span>
+            </div>
           ))}
         </div>
 
