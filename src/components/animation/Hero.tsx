@@ -101,7 +101,7 @@ export function Hero() {
     <section
       ref={heroRef}
       aria-label="The Manteis Project"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Structural frame — edges, not boxes */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
