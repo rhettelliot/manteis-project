@@ -9,9 +9,10 @@ interface TiltCardProps {
   release: (typeof releases)[0]
   index: number
   className?: string
+  sizes?: string
 }
 
-function TiltCard({ release, index, className = '' }: TiltCardProps) {
+function TiltCard({ release, index, className = '', sizes = '(max-width: 768px) 100vw, 33vw' }: TiltCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null)
   const [transform, setTransform] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg)')
 
@@ -52,7 +53,7 @@ function TiltCard({ release, index, className = '' }: TiltCardProps) {
           alt={`${release.title} cover art`}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={sizes}
         />
         <div
           className="absolute inset-0 pointer-events-none transition-opacity duration-500"
@@ -131,14 +132,10 @@ export function Discography() {
 
         {/* Bento grid for releases */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 md:gap-5 auto-rows-[280px] md:auto-rows-[320px]">
-          <TiltCard release={releases[0]} index={0} className="md:col-span-2 md:row-span-2"
-          />
-          <TiltCard release={releases[1]} index={1} className=""
-          />
-          <TiltCard release={releases[2]} index={2} className=""
-          />
-          <TiltCard release={releases[3]} index={3} className="md:col-span-2"
-          />
+          <TiltCard release={releases[0]} index={0} className="md:col-span-2 md:row-span-2" sizes="(max-width: 768px) 100vw, 66vw" />
+          <TiltCard release={releases[1]} index={1} sizes="(max-width: 768px) 100vw, 33vw" />
+          <TiltCard release={releases[2]} index={2} sizes="(max-width: 768px) 100vw, 33vw" />
+          <TiltCard release={releases[3]} index={3} className="md:col-span-2" sizes="(max-width: 768px) 100vw, 66vw" />
         </div>
       </div>
 

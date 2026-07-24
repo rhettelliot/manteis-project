@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The Manteis Project — Signal Architecture',
     description: 'Ambient / Quantum Architecture — Manteis Recordings',
-    images: ['/og.jpg'],
+    images: [{ url: '/og.jpg', alt: 'The Manteis Project — Manteis Recordings' }],
   },
   alternates: {
     canonical: ARTIST_URL,
@@ -87,8 +87,10 @@ const jsonLd = {
       numTracks: release.trackCount,
       image: `${ARTIST_URL}${release.coverArt}`,
       url: release.spotify,
+      sameAs: [release.spotify, release.hyperfollow],
       byArtist: { '@id': `${ARTIST_URL}/#artist` },
       albumProductionType: 'https://schema.org/StudioAlbum',
+      albumReleaseType: 'https://schema.org/AlbumRelease',
     })),
   ],
 }

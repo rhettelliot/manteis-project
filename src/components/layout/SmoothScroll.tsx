@@ -23,12 +23,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       lenisRef.current = lenis
 
       lenis.on('scroll', ScrollTrigger.update)
-      gsap.ticker.add((time) => { lenis.raf(time * 1000) })
+      // Keep a stable reference: gsap.ticker.remove only removes the exact
+      // function that was added, so an inline closure would leak the ticker
+      // callback (and keep calling raf on a destroyed Lenis instance).
+      const tick = (time: number) => { lenis.raf(time * 1000) }
+      gsap.ticker.add(tick)
       gsap.ticker.lagSmoothing(0)
 
       cleanup = () => {
+        gsap.ticker.remove(tick)
         lenis.destroy()
-        gsap.ticker.remove(lenis.raf)
       }
     })()
 
