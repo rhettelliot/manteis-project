@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { prefersReducedMotion } from '@/lib/motion'
 import { Release } from '@/lib/releases'
 
@@ -13,7 +13,6 @@ interface MagneticCardProps {
 export function MagneticCard({ release, index, total }: MagneticCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
-  const [border, setBorder] = useState({ x: 50, y: 50, opacity: 0 })
 
   const handleMove = (e: React.MouseEvent) => {
     const card = cardRef.current
@@ -25,28 +24,20 @@ export function MagneticCard({ release, index, total }: MagneticCardProps) {
     const cx = rect.width / 2
     const cy = rect.height / 2
 
-    // Magnetic pull: card leans toward cursor
+    // Subtle tilt toward cursor (max 6deg) — keep the interaction, kill the spectacle
     const pullX = (x - cx) / cx
     const pullY = (y - cy) / cy
-    const rotY = pullX * 14
-    const rotX = -pullY * 14
-
-    // Spotlight border position
-    setBorder({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: 1,
-    })
+    const rotY = pullX * 6
+    const rotX = -pullY * 6
 
     if (prefersReducedMotion()) return
-    inner.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.015)`
+    inner.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.01)`
     inner.style.transition = 'transform 0.15s ease-out'
   }
 
   const handleLeave = () => {
     const inner = innerRef.current
     if (!inner) return
-    setBorder({ x: 50, y: 50, opacity: 0 })
     if (prefersReducedMotion()) return
     inner.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
     inner.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
@@ -60,31 +51,10 @@ export function MagneticCard({ release, index, total }: MagneticCardProps) {
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
     >
-      {/* Spotlight border layer */}
-      <div
-        className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-300"
-        style={{
-          opacity: border.opacity,
-          background: `radial-gradient(400px circle at ${border.x}% ${border.y}%, rgba(159,103,245,0.45), transparent 70%)`,
-          mixBlendMode: 'screen',
-        }}
-      />
-
-      {/* Base card with magnetic transform */}
       <div
         ref={innerRef}
         className="relative w-full h-full bg-void-raised border border-edge-faint overflow-hidden will-change-transform"
       >
-        {/* Gradient border shimmer */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"
-          style={{
-            background:
-              'linear-gradient(110deg, transparent 35%, rgba(159,103,245,0.25) 50%, transparent 65%)',
-            mixBlendMode: 'screen',
-          }}
-        />
-
         {/* Card index */}
         <div className="absolute top-5 left-5 md:top-8 md:left-8 z-20">
           <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-signal border border-signal/40 px-2 py-1 bg-void/60">
@@ -94,7 +64,7 @@ export function MagneticCard({ release, index, total }: MagneticCardProps) {
 
         {/* Background cover art */}
         <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
           style={{ backgroundImage: `url(${release.coverArt})` }}
           aria-hidden="true"
         />
@@ -142,8 +112,8 @@ export function MagneticCard({ release, index, total }: MagneticCardProps) {
 
         {/* Stack shadow cast */}
         <div
-          className="absolute -bottom-6 left-[5%] right-[5%] h-12 pointer-events-none opacity-50 blur-lg"
-          style={{ background: 'rgba(159,103,245,0.2)' }}
+          className="absolute -bottom-6 left-[5%] right-[5%] h-12 pointer-events-none opacity-40 blur-md"
+          style={{ background: 'rgba(159,103,245,0.15)' }}
         />
       </div>
     </div>
