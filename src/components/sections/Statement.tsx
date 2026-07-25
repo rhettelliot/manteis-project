@@ -15,7 +15,6 @@ const manifesto = [
 
 export function Statement() {
   const sectionRef = useRef<HTMLElement>(null)
-  const curtainRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -59,7 +58,6 @@ export function Statement() {
     >
       {/* Curtain panels */}
       <div
-        ref={curtainRef}
         className={`curtain-panel curtain-panel-left ${open ? 'open' : ''}`}
         aria-hidden="true"
       />

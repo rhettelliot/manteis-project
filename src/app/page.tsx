@@ -5,10 +5,13 @@ import { Gatekeeper } from '@/components/layout/Gatekeeper'
 import { Navigation } from '@/components/layout/Navigation'
 import { SmoothScroll } from '@/components/layout/SmoothScroll'
 import { ParticleVortex } from '@/components/animation/ParticleVortex'
+import { FloatingParticles } from '@/components/animation/FloatingParticles'
 import { ScrollProgressPath } from '@/components/animation/ScrollProgressPath'
+import { ScrollStrobe } from '@/components/animation/ScrollStrobe'
 import { DepthFog, MistReveal } from '@/components/animation/DepthFog'
 import { KineticMarquee } from '@/components/animation/KineticMarquee'
 import { ChromaGrid } from '@/components/animation/ChromaGrid'
+import { CurtainReveal } from '@/components/animation/CurtainReveal'
 import { Hero } from '@/components/animation/Hero'
 import { SignalData } from '@/components/sections/SignalData'
 import { StickyReleaseStack } from '@/components/sections/StickyReleaseStack'
@@ -39,6 +42,8 @@ export default function Home() {
       {entered && (
         <SmoothScroll>
           <ParticleVortex />
+          <FloatingParticles />
+          <ScrollStrobe />
           <ScrollProgressPath />
           <header>
             <Navigation />
@@ -51,9 +56,11 @@ export default function Home() {
               <MistReveal />
             </section>
 
-            <SignalData />
+            <CurtainReveal id="signal" ariaLabel="Signal data" className="relative">
+              <SignalData />
+            </CurtainReveal>
 
-            <section id="discography" className="relative py-24 md:py-32">
+            <CurtainReveal id="discography" ariaLabel="Discography" className="relative py-24 md:py-32" delay={100}>
               <div className="max-w-7xl mx-auto px-6 md:px-12">
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 md:mb-24">
                   <div>
@@ -67,12 +74,10 @@ export default function Home() {
                     Four transmissions from the Manteis Project frequency range
                   </p>
                 </div>
-              </div>
 
-              <div className="max-w-7xl mx-auto px-6 md:px-12">
                 <StickyReleaseStack releases={releases} />
               </div>
-            </section>
+            </CurtainReveal>
 
             <KineticMarquee />
 
@@ -82,10 +87,18 @@ export default function Home() {
               </div>
             </section>
 
-            <Statement />
-            <CTASection />
+            <CurtainReveal id="statement" ariaLabel="Statement" className="relative">
+              <Statement />
+            </CurtainReveal>
+
+            <CurtainReveal className="relative" delay={150}>
+              <CTASection />
+            </CurtainReveal>
           </main>
-          <Footer />
+
+          <CurtainReveal className="relative" delay={200}>
+            <Footer />
+          </CurtainReveal>
         </SmoothScroll>
       )}
     </>
