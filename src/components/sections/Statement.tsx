@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { revealOnEnter } from '@/lib/reveal'
+import { useEffect, useRef, useState } from 'react'
+import { prefersReducedMotion } from '@/lib/motion'
 
 const manifesto = [
   'Sound is architecture.',
@@ -15,28 +15,66 @@ const manifesto = [
 
 export function Statement() {
   const sectionRef = useRef<HTMLElement>(null)
+  const curtainRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setOpen(true)
+      return
+    }
     const root = sectionRef.current
     if (!root) return
-    const disposers: Array<() => void> = []
-    ;(async () => {
-      disposers.push(await revealOnEnter(root.querySelectorAll('.manifesto-line'), { y: 40, duration: 0.7, stagger: 0.04 }))
-      disposers.push(await revealOnEnter(root.querySelectorAll('.statement-end'), { y: 24, duration: 0.6 }))
-    })()
-    return () => disposers.forEach((d) => d())
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setOpen(true)
+            io.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.25, rootMargin: '-10% 0px -10% 0px' }
+    )
+    io.observe(root)
+    return () => io.disconnect()
   }, [])
 
+  // Stagger manifesto lines via CSS after curtain opens
+  useEffect(() => {
+    if (!open) return
+    const root = sectionRef.current
+    if (!root) return
+    const lines = root.querySelectorAll('.manifesto-line')
+    lines.forEach((line, i) => {
+      ;(line as HTMLElement).style.transitionDelay = `${0.6 + i * 0.06}s`
+    })
+  }, [open])
+
   return (
-    <section ref={sectionRef} id="statement" className="relative py-32 md:py-48">
-      <div className="max-w-5xl mx-auto px-6 md:px-12">
+    <section
+      ref={sectionRef}
+      id="statement"
+      className="curtain-section relative py-32 md:py-48"
+    >
+      {/* Curtain panels */}
+      <div
+        ref={curtainRef}
+        className={`curtain-panel curtain-panel-left ${open ? 'open' : ''}`}
+        aria-hidden="true"
+      />
+      <div className={`curtain-panel ${open ? 'open' : ''}`} aria-hidden="true" />
+
+      <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-20">
         <div className="section-label mb-20">Statement /</div>
 
         <div className="space-y-6 md:space-y-8">
           {manifesto.map((line, i) => (
             <p
               key={i}
-              className={`manifesto-line font-display text-2xl md:text-4xl lg:text-5xl leading-[1.15] tracking-[-0.02em] ${
+              className={`manifesto-line font-display text-2xl md:text-4xl lg:text-5xl leading-[1.15] tracking-[-0.02em] transition-all duration-700 ease-out ${
+                open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              } ${
                 i === manifesto.length - 1
                   ? 'font-bold text-signal'
                   : i === manifesto.length - 2
