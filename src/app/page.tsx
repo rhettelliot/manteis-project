@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Gatekeeper } from '@/components/layout/Gatekeeper'
 import { Navigation } from '@/components/layout/Navigation'
 import { SmoothScroll } from '@/components/layout/SmoothScroll'
-import { ParticleVortex } from '@/components/animation/ParticleVortex'
 import { FloatingParticles } from '@/components/animation/FloatingParticles'
 import { ScrollProgressPath } from '@/components/animation/ScrollProgressPath'
 import { ScrollStrobe } from '@/components/animation/ScrollStrobe'
@@ -19,6 +19,12 @@ import { Statement } from '@/components/sections/Statement'
 import { CTASection } from '@/components/ui/CTASection'
 import { Footer } from '@/components/layout/Footer'
 import { releases } from '@/lib/releases'
+
+// Lazy-load Three.js particle vortex — keeps it out of the initial bundle
+const ParticleVortex = dynamic(
+  () => import('@/components/animation/ParticleVortex').then((m) => m.ParticleVortex),
+  { ssr: false, loading: () => null }
+)
 
 export default function Home() {
   const [entered, setEntered] = useState(false)
