@@ -32,6 +32,7 @@ export function Hero() {
         if (reduced) {
           gsap.set([lines, marks, subRef.current, labelRef.current], { opacity: 1, y: 0 })
           gsap.set(frame, { scaleX: 1, scaleY: 1, opacity: 1 })
+          gsap.set(indicatorRef.current, { opacity: 1 })
           return
         }
 
@@ -132,7 +133,7 @@ export function Hero() {
 
       {/* Telemetry markers */}
       <div aria-hidden="true" className="hero-mark hidden sm:block absolute top-[20%] left-[8%] pl-4 font-mono text-[9px] tracking-[0.2em] text-cream-muted">
-        SIG/9F67F5
+        SIG/FF5500
       </div>
       <div aria-hidden="true" className="hero-mark hidden sm:block absolute top-[20%] right-[8%] pr-4 font-mono text-[9px] tracking-[0.2em] text-signal">
         ● CARRIER LOCKED

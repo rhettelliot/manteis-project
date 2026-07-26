@@ -9,18 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // The Manteis Project — void + single violet signal
+        canvas: '#0D0F12',
+        surface: '#15181E',
+        'surface-hi': '#1A1E24',
+        ink: {
+          DEFAULT: '#F4F3EE',
+          2: '#9EA4B0',
+          3: '#5C6370',
+          ghost: 'rgba(244, 243, 238, 0.20)',
+        },
+        signal: '#FF5500',
+        'signal-dim': 'rgba(255, 85, 0, 0.15)',
+        border: 'rgba(255, 255, 255, 0.08)',
+        'border-hi': 'rgba(255, 255, 255, 0.14)',
+        cream: '#F4F3EE',
+        // Legacy aliases
         void: {
           DEFAULT: '#0D0F12',
-          raised: '#0C0C0C',
-          elevated: '#141414',
+          raised: '#15181E',
+          elevated: '#1A1E24',
           float: '#1C1C1C',
-        },
-        signal: {
-          // Electric Violet — the one signal
-          DEFAULT: '#FF5500',
-          dim: 'rgba(159, 103, 245, 0.12)',
-          border: 'rgba(159, 103, 245, 0.4)',
         },
         edge: {
           ghost: 'rgba(255,255,255,0.04)',
@@ -30,14 +38,14 @@ const config: Config = {
           bright: 'rgba(255,255,255,0.45)',
         },
         light: {
-          DEFAULT: '#F0F0F0',
-          dim: '#999999',
-          muted: '#767676',
+          DEFAULT: '#F4F3EE',
+          dim: '#9EA4B0',
+          muted: '#5C6370',
         },
         cream: {
-          DEFAULT: '#FDFCDC',
-          dim: '#C8C6B4',
-          muted: '#969480',
+          DEFAULT: '#F4F3EE',
+          dim: '#9EA4B0',
+          muted: '#5C6370',
         },
       },
       fontFamily: {

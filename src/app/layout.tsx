@@ -100,8 +100,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
-      <body className="bg-[#0D0F12] text-[#9EA4B0] antialiased">
-        <div className="grain" />
+      <body className="bg-canvas text-ink-2 antialiased">
+        <div className="grain" aria-hidden="true" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -112,25 +112,7 @@ export default function RootLayout({
             The Manteis Project — enable JavaScript for the full experience.
           </div>
         </noscript>
-        <div className="noise-overlay" />
-        <div className="scan-overlay" />
         {children}
-        {/* Safety net: if IntersectionObserver never fires, force scroll-revealed content visible */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-  (function() {
-    function sweep() {
-      setTimeout(function() {
-        var els = document.querySelectorAll('main [style*="opacity: 0"], main [style*="opacity:0"]');
-        els.forEach(function(el) { el.style.opacity = '1'; el.style.transform = 'none'; });
-      }, 4000);
-    }
-    sweep();
-  })();
-`,
-          }}
-        />
       </body>
     </html>
   )
