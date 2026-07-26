@@ -114,7 +114,7 @@ export function Hero() {
     <section
       ref={heroRef}
       aria-label="The Manteis Project"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Topographic quantum field overlay */}
       <div ref={topoRef} className="topo-overlay absolute inset-0" aria-hidden="true" />

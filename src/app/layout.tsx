@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The Manteis Project — Signal Architecture',
     description: 'Ambient / Quantum Architecture — Manteis Recordings',
-    images: ['/og.jpg'],
+    images: [{ url: '/og.jpg', alt: 'The Manteis Project — Manteis Recordings' }],
   },
   alternates: {
     canonical: ARTIST_URL,
@@ -87,8 +87,10 @@ const jsonLd = {
       numTracks: release.trackCount,
       image: `${ARTIST_URL}${release.coverArt}`,
       url: release.spotify,
+      sameAs: [release.spotify, release.hyperfollow],
       byArtist: { '@id': `${ARTIST_URL}/#artist` },
       albumProductionType: 'https://schema.org/StudioAlbum',
+      albumReleaseType: 'https://schema.org/AlbumRelease',
     })),
   ],
 }
@@ -108,7 +110,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <noscript>
           <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000', color: '#9F67F5', fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', textAlign: 'center', padding: 24 }}>
-            The Manteis Project is an interactive experience — enable JavaScript to enter.
+            The Manteis Project — enable JavaScript for the full experience.
           </div>
         </noscript>
         <div className="noise-overlay" />
@@ -126,7 +128,6 @@ export default function RootLayout({
       }, 4000);
     }
     sweep();
-    window.addEventListener('tmp-enter', sweep);
   })();
 `,
           }}

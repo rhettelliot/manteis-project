@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { revealOnEnter } from '@/lib/reveal'
 import { releases } from '@/lib/releases'
 
 const totalTracks = releases.reduce((sum, r) => sum + r.trackCount, 0)
@@ -28,6 +27,7 @@ export function SignalData() {
     if (!root) return
     const disposers: Array<() => void> = []
     ;(async () => {
+      const { revealOnEnter } = await import('@/lib/reveal')
       disposers.push(await revealOnEnter(root.querySelectorAll('.data-cell'), { y: 30, duration: 0.6, stagger: 0.1 }))
       disposers.push(await revealOnEnter(root.querySelectorAll('.channel-row'), { y: 16, duration: 0.5, stagger: 0.08 }))
     })()
