@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { prefersReducedMotion } from '@/lib/motion'
 
-const SIGNAL = new THREE.Color('#9F67F5')
+const SIGNAL = new THREE.Color('#FF5500')
 const CREAM = new THREE.Color('#FDFCDC')
 
 // Pre-allocated reusable refs to avoid recreating Float32Array at render time

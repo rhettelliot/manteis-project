@@ -11,14 +11,14 @@ const config: Config = {
       colors: {
         // The Manteis Project — void + single violet signal
         void: {
-          DEFAULT: '#000000',
+          DEFAULT: '#0D0F12',
           raised: '#0C0C0C',
           elevated: '#141414',
           float: '#1C1C1C',
         },
         signal: {
           // Electric Violet — the one signal
-          DEFAULT: '#9F67F5',
+          DEFAULT: '#FF5500',
           dim: 'rgba(159, 103, 245, 0.12)',
           border: 'rgba(159, 103, 245, 0.4)',
         },

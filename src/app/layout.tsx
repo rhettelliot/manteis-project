@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: '#0D0F12',
   colorScheme: 'dark',
 }
 
@@ -108,7 +108,7 @@ export default function RootLayout({
         />
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <noscript>
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000', color: '#9F67F5', fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', textAlign: 'center', padding: 24 }}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0D0F12', color: '#FF5500', fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', textAlign: 'center', padding: 24 }}>
             The Manteis Project — enable JavaScript for the full experience.
           </div>
         </noscript>
