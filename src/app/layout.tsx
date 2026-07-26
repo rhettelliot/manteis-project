@@ -1,14 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import '@/styles/globals.css'
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import { releases, ARTIST_URL, SPOTIFY_ARTIST, APPLE_MUSIC_ARTIST, LABEL_URL } from '@/lib/releases'
 
-// Antigravity OS: Space Grotesk serves as both --font-body and --font-display
-// (single font family, weight-differentiated). JetBrains Mono for data.
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['300', '400', '500', '700'],
+  weight: ['200', '400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -101,8 +99,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${jetbrains.variable}`}>
-      <body className="bg-void text-light antialiased">
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+      <body className="bg-[#0D0F12] text-[#9EA4B0] antialiased">
+        <div className="grain" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
