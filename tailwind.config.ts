@@ -42,11 +42,6 @@ const config: Config = {
           dim: '#9EA4B0',
           muted: '#5C6370',
         },
-        cream: {
-          DEFAULT: '#F4F3EE',
-          dim: '#9EA4B0',
-          muted: '#5C6370',
-        },
       },
       fontFamily: {
         display: ['var(--font-body)', 'system-ui', 'sans-serif'],
